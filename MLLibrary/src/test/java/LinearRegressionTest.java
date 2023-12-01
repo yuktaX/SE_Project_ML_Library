@@ -69,6 +69,17 @@ class LinearRegressionTest {
     }
 
     @Test
+    public void testCalcMeanSquaredError1() {
+        LinearRegression lr = new LinearRegression();
+        lr.test_points.add(new double[] { 0, 0 });
+        lr.test_points.add(new double[] { 0, 0 });
+        lr.slope_ = 0.0;
+        lr.intercept_ = 0.0;
+        lr.calcMeanSquaredError();
+        assertEquals(0.0, lr.mean_squared_error_, 0.001);
+    }
+
+    @Test
     public void testCalcRSquareScore() {
         LinearRegression lr = new LinearRegression();
         lr.sum_squared_resid = 5.0;
