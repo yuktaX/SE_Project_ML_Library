@@ -9,19 +9,19 @@ import java.io.Reader;
 import java.util.Random;
 
 public class LogisticRegression {
-    private static double[] weights;
-    private static double learningRate;
+    private double[] weights;
+    private double learningRate;
 
     public LogisticRegression(int features, double learningRate) {
         this.weights = new double[features];
         this.learningRate = learningRate;
     }
 
-    public static double sigmoid(double z) {
+    public double sigmoid(double z) {
         return 1.0 / (1.0 + Math.exp(-z));
     }
 
-    public static double predict(double[] features) {
+    public double predict(double[] features) {
         double z = 0.0;
         for (int i = 0; i < weights.length; i++) {
             z += weights[i] * features[i];
@@ -29,13 +29,13 @@ public class LogisticRegression {
         return sigmoid(z);
     }
 
-    public static void updateWeights(double[] features, double error) {
+    private void updateWeights(double[] features, double error) {
         for (int i = 0; i < weights.length; i++) {
             weights[i] += learningRate * error * features[i];
         }
     }
 
-    public static void train(double[][] features, int[] labels, int epochs) {
+    public void train(double[][] features, int[] labels, int epochs) {
         for (int epoch = 0; epoch < epochs; epoch++) {
             for (int i = 0; i < features.length; i++) {
                 double prediction = predict(features[i]);
@@ -45,7 +45,7 @@ public class LogisticRegression {
         }
     }
 
-    public static int predictClass(double[] features) {
+    public int predictClass(double[] features) {
         double prediction = predict(features);
         return prediction > 0.5 ? 1 : 0;
     }
@@ -100,7 +100,7 @@ public class LogisticRegression {
     }
 
     // Helper method to shuffle an array of indices
-    public static void shuffleArray(int[] array) {
+    private static void shuffleArray(int[] array) {
         Random rand = new Random();
         for (int i = array.length - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
@@ -135,10 +135,14 @@ public class LogisticRegression {
         logisticRegression.train(trainingFeatures, trainingLabels, epochs);
 
         // Sample test data
-        double[] testFeatures = {60.45555629271532, 42.50840943572217};
+        double[] testFeatures = {-4, -6};
 
         // Making predictions
         int predictedClass = logisticRegression.predictClass(testFeatures);
         System.out.println("Predicted Class: " + predictedClass);
+    }
+
+    public void setWeights(double[] weights) {
+        this.weights = weights;
     }
 }
